@@ -71,6 +71,11 @@ class BackendUserHistory extends Backend
      */
     public function trackUrl($strContent, $strTemplate)
     {
+        if(!$this->Database->tableExists('tl_user_history'))
+        {
+            return $strContent;
+        }
+        
         $this->import('BackendUser', 'User');
         if ($strTemplate == 'be_main' && $this->User->id)
         {
@@ -96,8 +101,7 @@ class BackendUserHistory extends Backend
      */
     public function showEditWarning($strName)
     {
-        
-        if ($this->Input->get('act') && $this->Input->get('id'))
+        if ($this->Input->get('act') && $this->Input->get('id') && $this->Database->tableExists('tl_user_history'))
         {
             if (!is_array($_SESSION["TL_INFO"]))
             {
@@ -112,7 +116,6 @@ class BackendUserHistory extends Backend
             
             while ($objUsers->next())
             {
-                
                 //check if the user is really editing the given element
                 $arrUrl = deserialize($objUsers->url);
                 if ($arrUrl['act'] == 'edit' && $arrUrl['id'] == $this->Input->get('id') && $arrUrl[$strEditType] == $strEditTable)
@@ -136,6 +139,12 @@ class BackendUserHistory extends Backend
         //get the users, that might edit this element
         $arrUrlParams = array('%edit%', '%' . $this->Input->get('id') . '%');
         $objUsers = $this->searchUser($arrUrlParams);
+        
+        if($objUsers === false ) 
+        {
+            return '';
+        }
+        
         if ($objUsers->numRows >0) $strReturn = '<h2>'.$GLOBALS['TL_LANG']['MSC']['editHeadline'].'</h2>';
         
         while ($objUsers->next())
@@ -186,6 +195,11 @@ class BackendUserHistory extends Backend
         $strFunction = 'edit';
         $strButton =  $this->callParentFunction($row, $href, $label, $title, $icon, $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $strFunction);
         
+        if (!$this->Database->tableExists('tl_user_history'))
+        {
+            return $strButton;
+        }
+
         //do nothting if this element is disabled
         if ($strButton == '' || stripos($strButton, '_.gif') !==false) return $strButton;
 
@@ -281,6 +295,10 @@ class BackendUserHistory extends Backend
      */
     public function searchUser($arrUrlParams)
     {
+        if(!$this->Database->tableExists('tl_user_history'))
+        {
+            return false;
+        }
         
         if (!is_array($arrUrlParams) || empty($arrUrlParams)) return false;
 
