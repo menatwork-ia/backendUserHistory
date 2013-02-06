@@ -1,4 +1,4 @@
 backendUserHistory
 ==================
 
-Contao Extension :: Track user editing
+Contao Extension :: Track backend user editing
