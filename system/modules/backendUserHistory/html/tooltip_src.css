@@ -1,0 +1,30 @@
+  .backend-user-history div.tip {
+    max-width:690px;
+    min-width:200px;
+    padding:10px;
+    background-color:#fff;
+    font-size:11px;
+    border-radius:3px 3px 3px 3px;
+    box-shadow:1px 1px 3px #666666;
+    padding:3px 6px 4px;
+    background:#666;
+    background-image:-moz-linear-gradient(bottom, #333 0%, #666 80%);
+    background-image:-webkit-linear-gradient(bottom, #333 0%, #666 80%);
+    background-image:-o-linear-gradient(bottom, #333 0%, #666 80%);
+    background-image:-ms-linear-gradient(bottom, #333 0%, #666 80%);
+    background-image:linear-gradient(bottom, #333 0%, #666 80%);
+  }
+
+  .backend-user-history div.tip-top {
+    height:6px;
+    position:absolute;
+    top:-13px;
+    right:8px;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-bottom:7px solid #666;
+  }
+
+  .backend-user-history div.tip-title {
+    color:#fff;
+  }
