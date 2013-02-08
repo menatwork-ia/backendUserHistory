@@ -303,7 +303,17 @@ class BackendUserHistory extends Backend
         if (!is_array($arrUrlParams) || empty($arrUrlParams)) return false;
 
         $objUser = $this->Database->prepare('SELECT uh.*, u.username FROM tl_user_history as uh JOIN tl_user as u ON (uh.userId = u.id) WHERE '.implode(' AND ', array_fill(0, count($arrUrlParams), 'url LIKE ?')).' AND userId != ? AND uh.tstamp > ?');
-        return $objUser->execute(array_merge($arrUrlParams, array($this->User->id, (time() - 21600))));
+        return $objUser->execute(array_merge($arrUrlParams, array($this->User->id, (time() - $GLOBALS['TL_CONFIG']['sessionTimeout']))));
     }
+    
+    /**
+     * Delete the tracked url from the DB
+     * @param FrontendUser $objUser
+     */
+    public function logoutUser($objUser) 
+    { 
+        if ($objUser instanceof BackendUser)
+            $this->Database->prepare('DELETE FROM tl_user_history WHERE userId = ?')->execute($objUser->id);
+    } 
 }
 ?>
