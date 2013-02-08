@@ -28,7 +28,7 @@ class BackendUserHistory extends Backend
         'tl_page',
         'tl_style',
         'tl_style_sheet',
-        'tl_themes',
+        'tl_theme',
         'tl_user',
         'tl_user_group'
     );
@@ -165,7 +165,6 @@ class BackendUserHistory extends Backend
      */
     public function changeLoadCallbacks($strName)
     {
-
         if (in_array($strName, $this->arrDCAs))
         {
             //save the old button callback
@@ -173,11 +172,12 @@ class BackendUserHistory extends Backend
             {
                 $GLOBALS['TL_DCA'][$strName]['list']['operations']['edit']['backendUserHistory_button_callback'] = $GLOBALS['TL_DCA'][$strName]['list']['operations']['edit']['button_callback'];
             }
+
             //set new button callback
-            $GLOBALS['TL_DCA'][$strName]['list']['operations']['edit']['button_callback']                    = array('BackendUserHistory', 'editElement');
+            $GLOBALS['TL_DCA'][$strName]['list']['operations']['edit']['button_callback'] = array('BackendUserHistory', 'editElement');
         }
     }
-    
+
     /**
      * Change the edit button if someone is editing the elements or an child element
      * @param type $row
@@ -231,30 +231,27 @@ class BackendUserHistory extends Backend
         }
         
         //get the users, that might edit this element
-        $strEditType = ($this->Input->get('table') && $this->Input->get('table') != $strTable) ? 'table' : 'do';
+        $strEditType = ($this->Input->get('table') && $this->Input->get('table') == $strTable) ? 'table' : 'do';
         $strEditTable = $this->Input->get($strEditType);
         $arrUrlParams = array('%'.$strEditTable.'%', '%edit%', '%'.$row['id'].'%');        
         $objUsers = $this->searchUser($arrUrlParams);
-        
+
         while ($objUsers->next())
         {
             //check if the user is really editing the given element
             $arrUrl = deserialize($objUsers->url);
-            if ( $arrUrl['act'] == 'edit' && $arrUrl['id'] == $row['id'] && $arrUrl[$strEditType] == $strEditTable)
-            {
+            if ($arrUrl['act'] == 'edit' && $arrUrl['id'] == $row['id'] && $arrUrl[$strEditType] == $strEditTable && ($arrUrl['table'] == $this->Input->get('table')) )
+            {                
                 //add a notice
-                $arrNotices[] = sprintf($GLOBALS['TL_LANG']['MSC']['editWarning'], 
-                    $objUsers->username, 
-                    date($GLOBALS['TL_CONFIG']['timeFormat'], $objUsers->tstamp),
-                    $arrUrl['id']);
+                $arrNotices[] = sprintf($GLOBALS['TL_LANG']['MSC']['editWarning'], $objUsers->username, date($GLOBALS['TL_CONFIG']['timeFormat'], $objUsers->tstamp), $arrUrl['id']);
             }
         }
-        
+
         //if notices are present, edit the icon and title
         if (count($arrNotices) > 0)
         {
             //$arrNotices[] = 'Die aktuelle Uhrzeit ist: '.date($GLOBALS['TL_CONFIG']['timeFormat']);
-            $title = implode("<br />", $arrNotices);
+            $title      = implode("<br />", $arrNotices);
             $icon = 'system/modules/backendUserHistory/html/edit.gif';
             $attributes = (stripos($attributes, 'class="') !==false) ? str_replace('class="', 'class="user-history ', $attributes) : $attributes.' class="user-history"';
             return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
