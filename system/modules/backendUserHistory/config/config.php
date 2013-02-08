@@ -16,7 +16,7 @@ $GLOBALS['TL_HOOKS']['outputBackendTemplate'][] = array('BackendUserHistory', 't
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('BackendUserHistory', 'showEditWarning'); 
 $GLOBALS['TL_HOOKS']['getSystemMessages'][] = array('BackendUserHistory', 'showWelcomeMessage'); 
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('BackendUserHistory', 'changeLoadCallbacks'); 
-
+$GLOBALS['TL_HOOKS']['postLogout'][] = array('BackendUserHistory', 'logoutUser'); 
 
 /**
  * Blacklist for child tables
