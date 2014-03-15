@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * @copyright  MEN AT WORK 2013 
+ * @copyright  MEN AT WORK 2014
  * @package    backendUserHistory
  * @license    GNU/LGPL 
  * @filesource
@@ -11,7 +11,8 @@
 
 class BackendUserHistory extends Backend
 {
-    private $arrDCAs = array(
+    private $arrDCAs = array
+    (
         'tl_article',
         'tl_calendar',
         'tl_calendar_events',
@@ -252,7 +253,7 @@ class BackendUserHistory extends Backend
         {
             //$arrNotices[] = 'Die aktuelle Uhrzeit ist: '.date($GLOBALS['TL_CONFIG']['timeFormat']);
             $title      = implode("<br />", $arrNotices);
-            $icon = 'system/modules/backendUserHistory/html/edit.gif';
+            $icon = 'system/modules/backendUserHistory/assets/edit.gif';
             $attributes = (stripos($attributes, 'class="') !==false) ? str_replace('class="', 'class="user-history ', $attributes) : $attributes.' class="user-history"';
             return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
         }
@@ -309,8 +310,9 @@ class BackendUserHistory extends Backend
      */
     public function logoutUser($objUser) 
     { 
-        if ($objUser instanceof BackendUser)
+        if ($objUser instanceof BackendUser) 
+        {
             $this->Database->prepare('DELETE FROM tl_user_history WHERE userId = ?')->execute($objUser->id);
+        }
     } 
 }
-?>

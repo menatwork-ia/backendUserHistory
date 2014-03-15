@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * @copyright  MEN AT WORK 2013 
+ * @copyright  MEN AT WORK 2014
  * @package    backendUserHistory
  * @license    GNU/LGPL 
  * @filesource
@@ -12,6 +12,4 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['backendUserHistory']                     = 'Benutzer Logbuch';
-
-?>
+$GLOBALS['TL_LANG']['MOD']['backendUserHistory']                     = 'Benutzer-Logbuch';
