@@ -122,7 +122,7 @@ class BackendUserHistory extends Backend
                 if ($arrUrl['act'] == 'edit' && $arrUrl['id'] == $this->Input->get('id') && $arrUrl[$strEditType] == $strEditTable)
                 {
                     //add a notice
-                    $_SESSION["TL_INFO"][] = sprintf($GLOBALS['TL_LANG']['MSC']['editWarning'], $objUsers->username, date($GLOBALS['TL_CONFIG']['timeFormat'], $objUsers->tstamp),$arrUrl['id']);
+                    $_SESSION["TL_INFO"][$objUsers->username . ' _ ' . $objUsers->tstamp] = sprintf($GLOBALS['TL_LANG']['MSC']['editWarning'], $objUsers->username, date($GLOBALS['TL_CONFIG']['timeFormat'], $objUsers->tstamp),$arrUrl['id']);
                 }
             }
         }
